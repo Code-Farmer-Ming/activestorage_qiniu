@@ -115,6 +115,9 @@ module ActiveStorage
 
     def url(key, **options)
       instrument :url, key: key do |payload|
+        if options[:size].present?
+          key = "#{key}#{options[:size]}"
+        end
         fop = if options[:fop].present?        # 内容预处理
                 options[:fop]
               elsif options[:disposition].to_s == 'attachment' # 下载附件
